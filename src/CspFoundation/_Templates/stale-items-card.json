@@ -1,0 +1,156 @@
+﻿{
+  "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "msteams": { "width": "Full" },
+
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "⏰ Due Dateが過ぎている Work Items（${itemCount} 件）",
+      "size": "Medium",
+      "weight": "Bolder",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "Table",
+      "firstRowAsHeaders": false,
+      "columns": [
+        { "width": 2 },
+        { "width": 4 },
+        { "width": 3 },
+        { "width": 2 },
+        { "width": 3 }
+      ],
+      "rows": [
+        {
+          "type": "TableRow",
+          "style": "emphasis",
+          "cells": [
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "ID",
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Title",
+                  "weight": "Bolder",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Assigned",
+                  "weight": "Bolder",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "State",
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Due",
+                  "weight": "Bolder"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$data": "${items}",
+          "type": "TableRow",
+          "cells": [
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "[#${id}](${AzdoBaseUrl}/${AzdoOrganizationName}/_workitems/edit/${id})",
+                  "wrap": true,
+                  "color": "Accent"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "wrap": true
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${assignedTo}",
+                  "wrap": true
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${state}"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${dueDate}"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Open in Azure DevOps",
+      "url": "${AzdoBaseUrl}/${AzdoOrganizationName}/${AzdoProjectName}/_sprints/taskboard/${AzdoProjectName}%20Team/${AzdoProjectName}",
+      "iconUrl": "icon:Share,filled"
+    }
+  ]
+}

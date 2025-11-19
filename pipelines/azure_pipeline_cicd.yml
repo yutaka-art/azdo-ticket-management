@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - src/*
+
+variables:
+- name: buildConfiguration
+  value: 'Release'
+- name: dotnetSdkVersion
+  value: '8.x'
+
+stages:
+  # DeployToDev
+  - stage: DeployToDev
+    displayName: 'Dev to Build and Push Docker Image'
+    pool:
+      vmImage: ubuntu-latest
+    jobs:
+    - job: BuildJob
+      displayName: 'Build Job'
+      steps:
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: $(SERVICE_CONNECTION_NAME)  # Azure Resource Manager サービス接続
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              echo "Logging into Azure Container Registry"
+              az acr login --name $(CONTAINER_REGISTORY_NAME)
+
+              echo "Building Docker image with Dockerfile"
+              docker build -f $(Build.SourcesDirectory)/src/Dockerfile -t $(CONTAINER_IMAGE_NAME):$(Build.BuildId) $(Build.SourcesDirectory)/src
+
+              echo "Tagging Docker image"
+              docker tag $(CONTAINER_IMAGE_NAME):$(Build.BuildId) $(CONTAINER_REGISTORY_NAME).azurecr.io/$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)
+
+              echo "Pushing Docker image"
+              docker push $(CONTAINER_REGISTORY_NAME).azurecr.io/$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)
+          displayName: 'Build, Tag, and Push Docker Image using Azure CLI'
+      # <<< マルチテナントの場合、Docker RegistryのService Connectionを利用できないため、Azure CLI を使用してログインする必要がある。
+        - task: AzureContainerApps@1
+          displayName: Deploy to ACA
+          inputs:
+            azureSubscription: $(SERVICE_CONNECTION_NAME)
+            appSourcePath: '$(Build.SourcesDirectory)/src'
+            dockerfilePath: 'Dockerfile'
+            acrName: '$(CONTAINER_REGISTORY_NAME)'
+            imageToBuild: '$(CONTAINER_REGISTORY_NAME).azurecr.io/$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)'
+            containerAppName: '<your-container-app-name>'
+            resourceGroup:   '<your-resource-group-name>'

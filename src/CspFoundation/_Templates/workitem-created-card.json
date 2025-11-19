@@ -1,0 +1,94 @@
+﻿{
+  "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+
+  "msteams": {
+    "width": "Full",
+    "entities": [
+      {
+        "type": "mention",
+        "text": "<at>${assignedToDisplay}</at>",
+        "mentioned": {
+          "id": "${assignedToEmail}",
+          "name": "${assignedToDisplay}"
+        }
+      }
+    ]
+  },
+
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "Image",
+              "style": "Person",
+              "url": "https://cdn.vsassets.io/ext/ms.vss-work-web/common-content/Content/Nav-Plan.XB8qU6.png",
+              "size": "Small"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "spacing": "medium",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "wrap": true,
+              "text": "<at>${assignedToDisplay}</at>"
+            },
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "wrap": true,
+              "text": "${inquiryTopic} に対する問い合わせ (#${id})"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "spacing": "medium",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "wrap": true,
+              "text": "${companyName}/${organizationName}/${contactName}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "markdown": true,
+      "text": "${description}"
+    }
+  ],
+
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Open in Azure DevOps",
+      "url": "${AzdoBaseUrl}/${AzdoOrganizationName}/_workitems/edit/${id}",
+      "iconUrl": "icon:Share,filled"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "担当者:${assignedToDisplay}",
+      "url": "https://teams.microsoft.com/l/chat/0/0?users=${assignedToEmail}",
+      "iconUrl": "icon:Chat,filled"
+    }
+  ]
+}

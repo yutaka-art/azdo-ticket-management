@@ -1,0 +1,106 @@
+﻿{
+  "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+
+  "msteams": {
+    "width": "Full",
+    "entities": [
+      {
+        "type": "mention",
+        "text": "<at>${newDisplay}</at>",
+        "mentioned": {
+          "id": "${newEmail}",
+          "name": "${newDisplay}"
+        }
+      }
+    ]
+  },
+
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "Image",
+              "style": "Person",
+              "url": "https://cdn.vsassets.io/ext/ms.vss-work-web/common-content/Content/Nav-Plan.XB8qU6.png",
+              "size": "Small"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "spacing": "medium",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "wrap": true,
+              "text": "<at>${newDisplay}</at>"
+            },
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "wrap": true,
+              "text": "担当者が変更されました (#${id})"
+            },
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "wrap": true,
+              "text": "旧担当者: ${oldDisplay}"
+            },
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "wrap": true,
+              "text": "変更者: ${changedBy}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "spacing": "medium",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "wrap": true,
+              "text": "${companyName}/${organizationName}/${contactName}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "markdown": true,
+      "text": "${description}"
+    }
+  ],
+
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Open in Azure DevOps",
+      "url": "${AzdoBaseUrl}/${AzdoOrganizationName}/_workitems/edit/${id}",
+      "iconUrl": "icon:Share,filled"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "新担当者: ${newDisplay}",
+      "url": "https://teams.microsoft.com/l/chat/0/0?users=${newEmail}",
+      "iconUrl": "icon:Chat,filled"
+    }
+  ]
+}

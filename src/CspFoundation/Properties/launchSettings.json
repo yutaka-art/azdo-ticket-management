@@ -1,0 +1,50 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "azdo-cron",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "KEY_VAULT_URL": "<your-keyvault-url>",
+        "STORAGE_CONNECT_STRING": "<your-storage-account-connection>",
+        "APPLICATIONINSIGHTS_CONNECTION_STRING": "<your-application-insights-connection>"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5199"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "azdo-cron",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "KEY_VAULT_URL": "<your-keyvault-url>",
+        "STORAGE_CONNECT_STRING": "<your-storage-account-connection>",
+        "APPLICATIONINSIGHTS_CONNECTION_STRING": "<your-application-insights-connection>"
+      }
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/azdo-cron",
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "KEY_VAULT_URL": "<your-keyvault-url>",
+        "STORAGE_CONNECT_STRING": "<your-storage-account-connection>",
+        "APPLICATIONINSIGHTS_CONNECTION_STRING": "<your-application-insights-connection>"
+      },
+      "publishAllPorts": true
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:37397",
+      "sslPort": 0
+    }
+  }
+}
